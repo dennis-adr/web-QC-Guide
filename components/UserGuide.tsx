@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, ChevronDown, ChevronUp, FileSpreadsheet, AlertCircle, CheckCircle, Upload, List, AlertTriangle, Clock, Tag, Server, UserCheck, PauseCircle, Download } from 'lucide-react';
+import { ChevronDown, ChevronUp, FileText, CheckCircle, List, AlertTriangle, Clock, Tag, Download, ArrowRight, PlayCircle, Bug, FileSpreadsheet, AlertCircle, Upload } from 'lucide-react';
 
 interface GuideSectionItem {
   id: string;
@@ -10,11 +10,21 @@ interface GuideSectionItem {
 }
 
 export const UserGuide: React.FC = () => {
-  const [searchTerm, setSearchTerm] = useState('');
   const [expandedSection, setExpandedSection] = useState<string | null>('intro');
 
   const toggleSection = (id: string) => {
     setExpandedSection(expandedSection === id ? null : id);
+  };
+
+  const scrollToSection = (id: string) => {
+    setExpandedSection(id);
+    // Small timeout to allow state to update and accordion to open
+    setTimeout(() => {
+        const element = document.getElementById(`section-${id}`);
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }, 100);
   };
 
   const sections: GuideSectionItem[] = [
@@ -192,209 +202,153 @@ export const UserGuide: React.FC = () => {
             </div>
           </div>
 
-          {/* Section 3: Priority */}
+          {/* Section 3: Priority (Table Format) */}
           <div>
             <h4 className="font-bold text-slate-900 text-lg mb-4 flex items-center border-l-4 border-blue-500 pl-3">
                <Clock className="w-5 h-5 mr-2 text-blue-500" />
                Priority (Prioritas Pengerjaan)
             </h4>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-               <div className="bg-red-50 border border-red-200 p-4 rounded-lg text-center">
-                  <span className="block font-bold text-red-700 text-lg mb-1">HIGH</span>
-                  <p className="text-xs text-red-600">Prioritas tinggi, diutamakan untuk dikerjakan terlebih dahulu.</p>
-               </div>
-               <div className="bg-orange-50 border border-orange-200 p-4 rounded-lg text-center">
-                  <span className="block font-bold text-orange-700 text-lg mb-1">MEDIUM</span>
-                  <p className="text-xs text-orange-600">Prioritas menengah, dapat dikerjakan setelah bug priority high.</p>
-               </div>
-               <div className="bg-blue-50 border border-blue-200 p-4 rounded-lg text-center">
-                  <span className="block font-bold text-blue-700 text-lg mb-1">LOW</span>
-                  <p className="text-xs text-blue-600">Prioritas terakhir, dapat dikerjakan setelah MEDIUM dan HIGH.</p>
-               </div>
+            <div className="overflow-x-auto rounded-lg border border-slate-200">
+              <table className="min-w-full divide-y divide-slate-200 text-sm">
+                <thead className="bg-slate-50">
+                  <tr>
+                    <th className="px-4 py-3 text-left font-bold text-slate-700">Level</th>
+                    <th className="px-4 py-3 text-left font-bold text-slate-700">Definisi</th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-slate-200">
+                  <tr>
+                    <td className="px-4 py-3 font-bold text-red-700 bg-red-50">HIGH</td>
+                    <td className="px-4 py-3">Prioritas tinggi, diutamakan untuk dikerjakan terlebih dahulu.</td>
+                  </tr>
+                  <tr>
+                    <td className="px-4 py-3 font-bold text-orange-700 bg-orange-50">MEDIUM</td>
+                    <td className="px-4 py-3">Prioritas menengah, dapat dikerjakan setelah bug High.</td>
+                  </tr>
+                  <tr>
+                    <td className="px-4 py-3 font-bold text-blue-700 bg-blue-50">LOW</td>
+                    <td className="px-4 py-3">Prioritas terakhir, dapat dikerjakan setelah Medium dan High.</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
+          </div>
+
+          {/* Section 4: Status Workflow Table (Unified with Merged Headers) */}
+          <div>
+             <h4 className="font-bold text-slate-900 text-lg mb-4 flex items-center border-l-4 border-purple-500 pl-3">
+               <Tag className="w-5 h-5 text-purple-500 mr-2" />
+               Status & Workflow (Referensi Lengkap)
+             </h4>
+             <div className="overflow-x-auto rounded-lg border border-slate-200">
+               <table className="min-w-full divide-y divide-slate-200 text-sm">
+                 <thead className="bg-slate-50">
+                    <tr>
+                      <th className="px-4 py-3 text-left font-bold text-slate-700 w-1/3">Status</th>
+                      <th className="px-4 py-3 text-left font-bold text-slate-700">Keterangan / Kondisi</th>
+                    </tr>
+                 </thead>
+                 <tbody className="bg-white divide-y divide-slate-200">
+                    {/* Category 1 */}
+                    <tr className="bg-slate-100">
+                        <td colSpan={2} className="px-4 py-2 text-xs font-bold text-slate-500 uppercase tracking-wider">
+                            1. Workflow Utama (Pengerjaan)
+                        </td>
+                    </tr>
+                    <tr>
+                       <td className="px-4 py-3 font-bold text-slate-600 bg-slate-50/50">OPEN</td>
+                       <td className="px-4 py-3">Bug baru saja dilaporkan, belum dikerjakan developer.</td>
+                    </tr>
+                    <tr>
+                       <td className="px-4 py-3 font-bold text-blue-600 bg-blue-50/50">IN PROGRESS</td>
+                       <td className="px-4 py-3">Sedang dalam proses coding/fixing oleh developer.</td>
+                    </tr>
+                    <tr>
+                       <td className="px-4 py-3 font-bold text-yellow-600 bg-yellow-50/50">REOPEN</td>
+                       <td className="px-4 py-3">Bug muncul kembali setelah dinyatakan selesai (Retest Fail).</td>
+                    </tr>
+                    <tr>
+                       <td className="px-4 py-3 font-bold text-green-600 bg-green-50/50">CLOSED</td>
+                       <td className="px-4 py-3">Bug sudah 100% clear (Retest Pass). Selesai.</td>
+                    </tr>
+
+                    {/* Category 2 */}
+                    <tr className="bg-slate-100">
+                        <td colSpan={2} className="px-4 py-2 text-xs font-bold text-slate-500 uppercase tracking-wider">
+                            2. Fase Pengujian (Testing)
+                        </td>
+                    </tr>
+                    <tr>
+                       <td className="px-4 py-3 font-bold text-indigo-600 bg-indigo-50/50">TESTING QC</td>
+                       <td className="px-4 py-3">Fixing selesai. Giliran <strong>QC Internal</strong> melakukan verifikasi.</td>
+                    </tr>
+                    <tr>
+                       <td className="px-4 py-3 font-bold text-teal-600 bg-teal-50/50">TESTING USER</td>
+                       <td className="px-4 py-3">QC Pass. Giliran <strong>User</strong> melakukan validasi (UAT).</td>
+                    </tr>
+                    <tr>
+                       <td className="px-4 py-3 font-bold text-purple-600 bg-purple-50/50">TESTING VENDOR</td>
+                       <td className="px-4 py-3">Pengecekan khusus oleh pihak ketiga/vendor.</td>
+                    </tr>
+
+                    {/* Category 3 */}
+                    <tr className="bg-slate-100">
+                        <td colSpan={2} className="px-4 py-2 text-xs font-bold text-slate-500 uppercase tracking-wider">
+                            3. Status Teknis (Server)
+                        </td>
+                    </tr>
+                    <tr>
+                       <td className="px-4 py-3 font-mono text-xs font-bold text-slate-700 bg-slate-50">MERGE TO DEV</td>
+                       <td className="px-4 py-3">Kode sedang digabungkan (Deploy) ke Server Development.</td>
+                    </tr>
+                    <tr>
+                       <td className="px-4 py-3 font-mono text-xs font-bold text-slate-700 bg-slate-50">DONE DEV</td>
+                       <td className="px-4 py-3">Selesai deploy. Sudah bisa dites di Server Development.</td>
+                    </tr>
+                    <tr>
+                       <td className="px-4 py-3 font-mono text-xs font-bold text-slate-700 bg-slate-50">MERGE TO STG</td>
+                       <td className="px-4 py-3">Kode sedang digabungkan (Deploy) ke Server Staging.</td>
+                    </tr>
+                    <tr>
+                       <td className="px-4 py-3 font-mono text-xs font-bold text-slate-700 bg-slate-50">DONE STG</td>
+                       <td className="px-4 py-3">Selesai deploy. Sudah bisa dites di Server Staging.</td>
+                    </tr>
+
+                    {/* Category 4 */}
+                    <tr className="bg-slate-100">
+                        <td colSpan={2} className="px-4 py-2 text-xs font-bold text-slate-500 uppercase tracking-wider">
+                            4. Penundaan & Validasi
+                        </td>
+                    </tr>
+                    <tr>
+                       <td className="px-4 py-3 font-bold text-orange-600 bg-orange-50/50">PENDING</td>
+                       <td className="px-4 py-3">Tertunda karena menunggu info tambahan/data dari user.</td>
+                    </tr>
+                    <tr>
+                       <td className="px-4 py-3 font-bold text-slate-500 bg-slate-50/50">HOLD</td>
+                       <td className="px-4 py-3">Sengaja ditahan/pause (Prioritas rendah atau keputusan manajemen).</td>
+                    </tr>
+                    <tr>
+                       <td className="px-4 py-3 font-bold text-red-600 bg-red-50/50">REJECT</td>
+                       <td className="px-4 py-3">Ditolak. Bukan Bug, By Design, atau tidak akan diperbaiki.</td>
+                    </tr>
+                    <tr>
+                       <td className="px-4 py-3 font-bold text-purple-600 bg-purple-50/50">DUPLICATE</td>
+                       <td className="px-4 py-3">Bug yang sama sudah pernah dilaporkan di card lain.</td>
+                    </tr>
+                    <tr>
+                       <td className="px-4 py-3 font-bold text-teal-600 bg-teal-50/50">NEED CONFIRM</td>
+                       <td className="px-4 py-3">Butuh konfirmasi atau diskusi lebih lanjut.</td>
+                    </tr>
+                 </tbody>
+               </table>
+             </div>
           </div>
         </div>
       ),
       textContent: "Pelaporan Bug (Detail). Langkah Pelaporan di Monday.com. Format Judul Wajib: [BUGXXX] - [Modul] - [Judul Bug]. Kolom Wajib Diisi: Test By, Assigned To (SA/BA/PSA), Developer (Kosongkan). Isi Comment / Deskripsi: Step, Issue, Expected, Actual, Evidence. Klasifikasi Severity (Dampak Bug): MAJOR (Stopper), MEDIUM (Workaround exists), MINOR (Gangguan kecil), KOSMETIK (Visual saja), NOT BUG, NICE TO HAVE, MUST TO HAVE. Priority (Prioritas Pengerjaan): HIGH (Dikerjakan dulu), MEDIUM (Setelah High), LOW (Terakhir)."
-    },
-    {
-      id: 'status-workflow',
-      title: 'Status & Workflow Bug',
-      icon: <Tag className="w-5 h-5 text-purple-500" />,
-      content: (
-        <div className="space-y-8 text-sm">
-          <p className="text-slate-600 bg-purple-50 p-4 rounded-lg border border-purple-100">
-            Berikut adalah penjelasan lengkap mengenai berbagai status yang ada di Monday.com. 
-            Memahami status ini sangat penting agar komunikasi antara User, QC, dan Developer berjalan lancar.
-          </p>
-          
-          <div className="grid grid-cols-1 gap-6">
-             
-             {/* 1. Status Pengerjaan */}
-             <div className="border border-slate-200 rounded-lg overflow-hidden shadow-sm">
-                <div className="bg-slate-800 px-4 py-3 font-bold text-white flex items-center">
-                  <span className="bg-slate-600 rounded-full w-6 h-6 flex items-center justify-center text-xs mr-2">1</span>
-                  Status Pengerjaan (Workflow Utama)
-                </div>
-                <div className="p-5 space-y-4 bg-white">
-                   <div className="flex flex-col sm:flex-row sm:items-start">
-                      <span className="bg-slate-200 text-slate-700 px-3 py-1 rounded-full text-xs font-bold min-w-[110px] text-center mb-1 sm:mb-0 sm:mr-4">OPEN</span>
-                      <p className="text-slate-700">Bug baru saja dilaporkan dan <strong>belum mulai dikerjakan</strong> oleh developer. Biasanya masih menunggu giliran atau assignment.</p>
-                   </div>
-                   <div className="flex flex-col sm:flex-row sm:items-start">
-                      <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-bold min-w-[110px] text-center mb-1 sm:mb-0 sm:mr-4">IN PROGRESS</span>
-                      <p className="text-slate-700">Developer sedang dalam proses memperbaiki bug (Coding/Fixing). User harap menunggu.</p>
-                   </div>
-                   <div className="flex flex-col sm:flex-row sm:items-start">
-                      <span className="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs font-bold min-w-[110px] text-center mb-1 sm:mb-0 sm:mr-4">REOPEN</span>
-                      <p className="text-slate-700">Bug yang sebelumnya dinyatakan selesai, tapi <strong>muncul kembali</strong> saat ditest ulang.</p>
-                   </div>
-                   <div className="flex flex-col sm:flex-row sm:items-start">
-                      <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold min-w-[110px] text-center mb-1 sm:mb-0 sm:mr-4">CLOSED</span>
-                      <p className="text-slate-700">Bug sudah 100% clear/fixed dan testing sudah lulus. Tidak perlu tindakan lebih lanjut.</p>
-                   </div>
-                </div>
-             </div>
-
-             {/* 2. Status Pengujian */}
-             <div className="border border-blue-200 rounded-lg overflow-hidden shadow-sm">
-                <div className="bg-blue-600 px-4 py-3 font-bold text-white flex items-center">
-                  <UserCheck className="w-5 h-5 mr-2" />
-                  Status Pengujian (Testing Phase)
-                </div>
-                <div className="p-5 space-y-4 bg-white">
-                   <div className="flex flex-col sm:flex-row sm:items-start">
-                      <span className="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-xs font-bold min-w-[120px] text-center mb-1 sm:mb-0 sm:mr-4">TESTING QC</span>
-                      <p className="text-slate-700">Developer sudah selesai fixing. Saatnya <strong>QC Internal</strong> memverifikasi apakah bug benar-benar hilang sebelum diserahkan ke User.</p>
-                   </div>
-                   <div className="flex flex-col sm:flex-row sm:items-start">
-                      <span className="bg-teal-100 text-teal-700 px-3 py-1 rounded-full text-xs font-bold min-w-[120px] text-center mb-1 sm:mb-0 sm:mr-4">TESTING USER</span>
-                      <p className="text-slate-700">QC sudah memverifikasi fix (QC Pass). Sekarang giliran <strong>User</strong> untuk melakukan validasi akhir (UAT) di environment terkait.</p>
-                   </div>
-                   <div className="flex flex-col sm:flex-row sm:items-start">
-                      <span className="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-xs font-bold min-w-[120px] text-center mb-1 sm:mb-0 sm:mr-4">TESTING VENDOR</span>
-                      <p className="text-slate-700">Pengecekan khusus yang dilakukan oleh pihak ketiga (3rd Party) atau Vendor eksternal.</p>
-                   </div>
-                </div>
-             </div>
-
-             {/* 3. Status Teknis */}
-             <div className="border border-slate-300 rounded-lg overflow-hidden shadow-sm">
-                <div className="bg-slate-600 px-4 py-3 font-bold text-white flex items-center">
-                  <Server className="w-5 h-5 mr-2" />
-                  Status Teknis & Deployment
-                </div>
-                <div className="p-5 space-y-4 bg-slate-50">
-                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                         <strong className="block text-slate-800 mb-1">Development Server</strong>
-                         <ul className="space-y-2 text-sm">
-                            <li className="flex items-start"><span className="font-mono bg-white border px-1 rounded mr-2 text-xs">MERGE TO DEV</span> Kode sedang digabungkan ke server Development.</li>
-                            <li className="flex items-start"><span className="font-mono bg-white border px-1 rounded mr-2 text-xs">DONE DEV</span> Fixing selesai & berjalan di server Development.</li>
-                         </ul>
-                      </div>
-                      <div>
-                         <strong className="block text-slate-800 mb-1">Staging Server</strong>
-                         <ul className="space-y-2 text-sm">
-                            <li className="flex items-start"><span className="font-mono bg-white border px-1 rounded mr-2 text-xs">MERGE TO STG</span> Kode sedang digabungkan ke server Staging.</li>
-                            <li className="flex items-start"><span className="font-mono bg-white border px-1 rounded mr-2 text-xs">DONE STG</span> Fixing selesai & berjalan di server Staging.</li>
-                         </ul>
-                      </div>
-                   </div>
-                </div>
-             </div>
-
-             {/* 4. Status Penundaan */}
-             <div className="border border-orange-200 rounded-lg overflow-hidden shadow-sm">
-                <div className="bg-orange-500 px-4 py-3 font-bold text-white flex items-center">
-                  <PauseCircle className="w-5 h-5 mr-2" />
-                  Status Penundaan & Validasi
-                </div>
-                <div className="p-5 space-y-3 bg-white">
-                   <div className="space-y-3">
-                      <div className="flex items-start p-2 hover:bg-orange-50 rounded transition-colors">
-                         <span className="w-3 h-3 rounded-full bg-orange-400 mt-1.5 mr-3 flex-shrink-0"></span>
-                         <div>
-                            <strong className="text-slate-800 block">PENDING</strong>
-                            <span className="text-slate-600 text-sm">Pengerjaan tertunda karena <strong>menunggu info tambahan</strong> dari user/bisnis.</span>
-                         </div>
-                      </div>
-                      <div className="flex items-start p-2 hover:bg-slate-50 rounded transition-colors">
-                         <span className="w-3 h-3 rounded-full bg-slate-400 mt-1.5 mr-3 flex-shrink-0"></span>
-                         <div>
-                            <strong className="text-slate-800 block">HOLD</strong>
-                            <span className="text-slate-600 text-sm">Sengaja ditahan atau di-pause. Biasanya karena prioritas rendah atau menunggu keputusan manajemen.</span>
-                         </div>
-                      </div>
-                      <div className="flex items-start p-2 hover:bg-red-50 rounded transition-colors">
-                         <span className="w-3 h-3 rounded-full bg-red-500 mt-1.5 mr-3 flex-shrink-0"></span>
-                         <div>
-                            <strong className="text-slate-800 block">REJECT</strong>
-                            <span className="text-slate-600 text-sm">Bug ditolak. Alasannya bisa karena itu <strong>Bukan Bug</strong> (memang fitur seperti itu) atau tidak akan diperbaiki.</span>
-                         </div>
-                      </div>
-                      <div className="flex items-start p-2 hover:bg-purple-50 rounded transition-colors">
-                         <span className="w-3 h-3 rounded-full bg-purple-400 mt-1.5 mr-3 flex-shrink-0"></span>
-                         <div>
-                            <strong className="text-slate-800 block">DUPLICATE</strong>
-                            <span className="text-slate-600 text-sm">Bug yang sama persis sudah pernah dilaporkan di card lain.</span>
-                         </div>
-                      </div>
-                      <div className="flex items-start p-2 hover:bg-teal-50 rounded transition-colors">
-                         <span className="w-3 h-3 rounded-full bg-teal-400 mt-1.5 mr-3 flex-shrink-0"></span>
-                         <div>
-                            <strong className="text-slate-800 block">NEED CONFIRM</strong>
-                            <span className="text-slate-600 text-sm">Butuh konfirmasi atau diskusi lebih lanjut sebelum diputuskan.</span>
-                         </div>
-                      </div>
-                   </div>
-                </div>
-             </div>
-          </div>
-        </div>
-      ),
-      textContent: "Status & Workflow Bug. Workflow Utama: OPEN (Baru), IN PROGRESS (Sedang dikerjakan), REOPEN (Muncul lagi), CLOSED (Sudah clear). Status Pengujian: TESTING QC (Verifikasi Internal), TESTING USER (Validasi User), TESTING VENDOR (Pihak Ketiga). Status Teknis: MERGE TO DEV, DONE DEV, MERGE TO STG, DONE STG. Status Penundaan & Validasi: PENDING (Tunggu info), HOLD (Ditahan/Pause), REJECT (Ditolak), DUPLICATE (Sudah ada), NEED CONFIRM (Butuh konfirmasi)."
-    },
-    {
-      id: 'closure',
-      title: 'Penyelesaian & Evidence',
-      icon: <Upload className="w-5 h-5 text-indigo-500" />,
-      content: (
-        <div className="space-y-4 text-sm">
-          <p>Jika bug sudah diperbaiki developer (Status: <strong>Done Dev/Stg</strong> atau <strong>Testing User</strong>), lakukan Retest segera.</p>
-          <div className="grid grid-cols-1 gap-3">
-             <div className="flex items-center p-4 bg-green-50 border border-green-200 rounded-lg shadow-sm">
-                <CheckCircle className="w-6 h-6 text-green-600 mr-4" />
-                <div>
-                  <span className="font-bold text-green-800 block text-base">Jika Hasil Retest SUKSES (Fixed)</span>
-                  <p className="text-green-700 mt-1">
-                    1. Ubah last status Excel jadi <strong>PASS</strong>.<br/>
-                    2. Ubah status Monday jadi <strong>CLOSED</strong>.<br/>
-                    3. Tambah komen: <code className="bg-white px-1 rounded">[CLOSED] DD/MM/YYYY - Evidence</code>
-                  </p>
-                </div>
-             </div>
-             <div className="flex items-center p-4 bg-red-50 border border-red-200 rounded-lg shadow-sm">
-                <AlertTriangle className="w-6 h-6 text-red-600 mr-4" />
-                <div>
-                  <span className="font-bold text-red-800 block text-base">Jika Masih Ada Bug</span>
-                  <p className="text-red-700 mt-1">
-                    1. Ubah status Monday jadi <strong>REOPEN</strong>.<br/>
-                    2. Berikan komen detail kenapa masih gagal.
-                  </p>
-                </div>
-             </div>
-          </div>
-        </div>
-      ),
-      textContent: "Penyelesaian & Evidence. Jika bug sudah diperbaiki developer (Status: Done Dev/Stg), lakukan Retest segera. Jika Hasil Retest SUKSES (Fixed): Ubah last status Excel jadi PASS, Ubah status Monday jadi CLOSED, Tambah komen [CLOSED] DD/MM/YYYY - Evidence. Jika Masih Ada Bug: Ubah status Monday jadi REOPEN, Berikan komen detail."
     }
   ];
-
-  const filteredSections = sections.filter(s => 
-    s.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-    s.textContent.toLowerCase().includes(searchTerm.toLowerCase())
-  );
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
@@ -403,36 +357,84 @@ export const UserGuide: React.FC = () => {
         <p className="text-lg text-slate-600 max-w-2xl mx-auto mb-6">
           Panduan lengkap dan mendetail untuk User dalam melakukan validasi aplikasi secara mandiri.
         </p>
-        
-        {/* DOWNLOAD BUTTON ADDED HERE */}
-        <div className="flex justify-center">
-          <a 
-            href="/Guide_User.pdf" 
-            download 
-            className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all transform hover:-translate-y-1"
-          >
-            <Download className="w-5 h-5 mr-2" />
-            Download PDF Guide User
-          </a>
-        </div>
       </div>
 
-      <div className="relative mb-8 max-w-2xl mx-auto">
-        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-          <Search className="h-5 w-5 text-slate-400" />
-        </div>
-        <input
-          type="text"
-          className="block w-full pl-11 pr-4 py-4 border border-slate-200 rounded-full leading-5 bg-white placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-500 transition-all shadow-sm"
-          placeholder="Cari panduan (contoh: severity, priority, format bug)..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
+      <div className="mb-8 text-center">
+        <a 
+            href="/public/Guide_User_UAT.pdf" 
+            download 
+            className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-xl shadow-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all transform hover:-translate-y-1"
+          >
+            <Download className="w-5 h-5 mr-2" />
+            Download PDF
+        </a>
+      </div>
+
+      {/* Modern Flowchart Banner for User Guide */}
+      <div className="mb-8 rounded-xl p-1">
+         <div className="bg-white rounded-lg p-6 md:p-8">
+            <h3 className="text-center font-bold text-slate-800 mb-6 uppercase tracking-wider text-sm hidden">Alur UAT Mandiri (Klik untuk detail)</h3>
+            <div className="flex flex-col md:flex-row items-center justify-between gap-4 max-w-3xl mx-auto">
+                
+                {/* Step 1 - Persiapan */}
+                <button 
+                  onClick={() => scrollToSection('execution')}
+                  className="flex flex-col items-center text-center group cursor-pointer w-full md:w-auto focus:outline-none"
+                >
+                    <div className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center mb-3 group-hover:bg-blue-200 transition-colors group-hover:scale-110 duration-300 shadow-sm">
+                        <FileText className="w-7 h-7 text-blue-600" />
+                    </div>
+                    <span className="font-bold text-slate-800 text-lg group-hover:text-blue-700 transition-colors">Persiapan Skrip</span>
+                    <span className="text-xs text-slate-500 mt-1">Download & Isi Data</span>
+                </button>
+
+                {/* Arrow */}
+                <div className="hidden md:block">
+                    <ArrowRight className="w-6 h-6 text-slate-300" />
+                </div>
+                <div className="md:hidden">
+                    <ArrowDown className="w-6 h-6 text-slate-300" />
+                </div>
+
+                {/* Step 2 - Eksekusi */}
+                <button 
+                  onClick={() => scrollToSection('execution')}
+                  className="flex flex-col items-center text-center group cursor-pointer w-full md:w-auto focus:outline-none"
+                >
+                    <div className="w-16 h-16 rounded-full bg-cyan-100 flex items-center justify-center mb-3 group-hover:bg-cyan-200 transition-colors group-hover:scale-110 duration-300 shadow-sm">
+                        <PlayCircle className="w-7 h-7 text-cyan-600" />
+                    </div>
+                    <span className="font-bold text-slate-800 text-lg group-hover:text-cyan-700 transition-colors">Eksekusi UAT</span>
+                    <span className="text-xs text-slate-500 mt-1">Lakukan Step-by-Step</span>
+                </button>
+
+                {/* Arrow */}
+                <div className="hidden md:block">
+                    <ArrowRight className="w-6 h-6 text-slate-300" />
+                </div>
+                <div className="md:hidden">
+                    <ArrowDown className="w-6 h-6 text-slate-300" />
+                </div>
+
+                {/* Step 3 - Report Bug */}
+                <button 
+                  onClick={() => scrollToSection('bug-reporting')}
+                  className="flex flex-col items-center text-center group cursor-pointer w-full md:w-auto focus:outline-none"
+                >
+                    <div className="w-16 h-16 rounded-full bg-red-100 flex items-center justify-center mb-3 group-hover:bg-red-200 transition-colors group-hover:scale-110 duration-300 shadow-sm">
+                        <Bug className="w-7 h-7 text-red-600" />
+                    </div>
+                    <span className="font-bold text-slate-800 text-lg group-hover:text-red-700 transition-colors">Report Bug</span>
+                    <span className="text-xs text-slate-500 mt-1">Jika Hasil != Expected</span>
+                </button>
+
+            </div>
+         </div>
       </div>
 
       <div className="space-y-6">
-        {filteredSections.map((section) => (
-          <div key={section.id} className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden transition-all hover:shadow-md">
+        {sections.map((section) => (
+          <div key={section.id} id={`section-${section.id}`} className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden transition-all hover:shadow-md">
             <button
               onClick={() => toggleSection(section.id)}
               className="w-full px-6 py-5 flex items-center justify-between bg-white focus:outline-none hover:bg-slate-50 transition-colors"
@@ -465,3 +467,8 @@ export const UserGuide: React.FC = () => {
     </div>
   );
 };
+
+// Simple ArrowDown component for mobile view within this file
+const ArrowDown = ({ className }: { className?: string }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg>
+);

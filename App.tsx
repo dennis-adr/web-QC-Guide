@@ -4,9 +4,11 @@ import { Footer } from './components/Footer';
 import { UserGuide } from './components/UserGuide';
 import { QCGuide } from './components/QCGuide';
 import { Chatbot } from './components/Chatbot';
+import { PinAuth } from './components/PinAuth';
 import { Tab } from './types';
 
 const App: React.FC = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [activeTab, setActiveTab] = useState<Tab>(Tab.USER_GUIDE);
 
   const renderContent = () => {
@@ -21,6 +23,10 @@ const App: React.FC = () => {
         return <UserGuide />;
     }
   };
+
+  if (!isAuthenticated) {
+    return <PinAuth onAuthenticated={() => setIsAuthenticated(true)} />;
+  }
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-50">
