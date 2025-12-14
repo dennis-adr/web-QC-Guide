@@ -55,7 +55,7 @@ export const QCGuide: React.FC = () => {
     {
       id: 'sit-prep',
       category: 'SIT',
-      title: 'Persiapan SIT & Negative Flow',
+      title: 'Persiapan',
       icon: <FilePlus className="w-5 h-5 text-blue-600" />,
       content: (
         <div className="space-y-4 text-sm text-slate-700">
@@ -87,7 +87,7 @@ export const QCGuide: React.FC = () => {
     {
       id: 'sit-exec',
       category: 'SIT',
-      title: 'Eksekusi & Status Logic (SIT)',
+      title: 'Pelaksanaan Testing',
       icon: <MonitorPlay className="w-5 h-5 text-green-600" />,
       content: (
         <div className="space-y-6 text-sm">
@@ -158,8 +158,8 @@ export const QCGuide: React.FC = () => {
     {
       id: 'monday-sit',
       category: 'SIT',
-      title: 'Standar Pelaporan & Referensi Status',
-      icon: <ClipboardList className="w-5 h-5 text-purple-600" />,
+      title: 'Pelaporan Bug',
+      icon: <ClipboardList className="w-5 h-5 text-red-500" />,
       content: (
         <div className="space-y-8 text-sm">
           {/* Format Card */}
@@ -442,12 +442,12 @@ export const QCGuide: React.FC = () => {
       {/* Centered Download Button */}
       <div className="mb-8 text-center">
              <a 
-              href="/public/Guide_QC_Technocenter.pdf" 
+              href="/Guide_QC(v1).pdf" 
               download 
               className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-xl shadow-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all transform hover:-translate-y-1"
             >
               <Download className="w-5 h-5 mr-2" />
-              Download PDF
+              Download PDF Guide QC
             </a>
       </div>
 
@@ -489,8 +489,8 @@ export const QCGuide: React.FC = () => {
                     <div className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center mb-3 group-hover:bg-blue-200 transition-colors group-hover:scale-110 duration-300 shadow-sm">
                         <FileText className="w-7 h-7 text-blue-600" />
                     </div>
-                    <span className="font-bold text-slate-800 text-lg group-hover:text-blue-700 transition-colors">Review Skrip SA</span>
-                    <span className="text-xs text-slate-500 mt-1">Tambah Negative Flow</span>
+                    <span className="font-bold text-slate-800 text-lg group-hover:text-blue-700 transition-colors">Persiapan</span>
+                    <span className="text-xs text-slate-500 mt-1">Memahami flow, mempersiapkan Skrip</span>
                 </button>
 
                 {/* Arrow */}
@@ -509,7 +509,7 @@ export const QCGuide: React.FC = () => {
                     <div className="w-16 h-16 rounded-full bg-cyan-100 flex items-center justify-center mb-3 group-hover:bg-cyan-200 transition-colors group-hover:scale-110 duration-300 shadow-sm">
                         <PlayCircle className="w-7 h-7 text-cyan-600" />
                     </div>
-                    <span className="font-bold text-slate-800 text-lg group-hover:text-cyan-700 transition-colors">Eksekusi SIT</span>
+                    <span className="font-bold text-slate-800 text-lg group-hover:text-cyan-700 transition-colors">Pelaksanaan Testing</span>
                     <span className="text-xs text-slate-500 mt-1">Testing Full Cycle</span>
                 </button>
 
@@ -529,7 +529,7 @@ export const QCGuide: React.FC = () => {
                     <div className="w-16 h-16 rounded-full bg-red-100 flex items-center justify-center mb-3 group-hover:bg-red-200 transition-colors group-hover:scale-110 duration-300 shadow-sm">
                         <Bug className="w-7 h-7 text-red-600" />
                     </div>
-                    <span className="font-bold text-slate-800 text-lg group-hover:text-red-700 transition-colors">Report Bug</span>
+                    <span className="font-bold text-slate-800 text-lg group-hover:text-red-700 transition-colors">Pelaporan Bug</span>
                     <span className="text-xs text-slate-500 mt-1">Input Monday.com</span>
                 </button>
 

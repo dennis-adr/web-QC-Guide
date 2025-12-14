@@ -30,7 +30,7 @@ export const UserGuide: React.FC = () => {
   const sections: GuideSectionItem[] = [
     {
       id: 'intro',
-      title: 'Pendahuluan UAT',
+      title: 'Persiapan',
       icon: <FileSpreadsheet className="w-5 h-5 text-blue-500" />,
       content: (
         <div className="space-y-4">
@@ -57,7 +57,7 @@ export const UserGuide: React.FC = () => {
     },
     {
       id: 'execution',
-      title: 'Eksekusi & Pengisian Skrip',
+      title: 'Pelaksanaan Testing',
       icon: <CheckCircle className="w-5 h-5 text-green-500" />,
       content: (
         <div className="space-y-6 text-sm text-slate-700">
@@ -115,7 +115,7 @@ export const UserGuide: React.FC = () => {
     },
     {
       id: 'bug-reporting',
-      title: 'Pelaporan Bug (Detail)',
+      title: 'Pelaporan Bug',
       icon: <AlertCircle className="w-5 h-5 text-red-500" />,
       content: (
         <div className="space-y-8">
@@ -361,12 +361,12 @@ export const UserGuide: React.FC = () => {
 
       <div className="mb-8 text-center">
         <a 
-            href="/public/Guide_User_UAT.pdf" 
+            href="/Guide_User(v1).pdf" 
             download 
             className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-xl shadow-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all transform hover:-translate-y-1"
           >
             <Download className="w-5 h-5 mr-2" />
-            Download PDF
+            Download PDF Guide User
         </a>
       </div>
 
@@ -384,8 +384,8 @@ export const UserGuide: React.FC = () => {
                     <div className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center mb-3 group-hover:bg-blue-200 transition-colors group-hover:scale-110 duration-300 shadow-sm">
                         <FileText className="w-7 h-7 text-blue-600" />
                     </div>
-                    <span className="font-bold text-slate-800 text-lg group-hover:text-blue-700 transition-colors">Persiapan Skrip</span>
-                    <span className="text-xs text-slate-500 mt-1">Download & Isi Data</span>
+                    <span className="font-bold text-slate-800 text-lg group-hover:text-blue-700 transition-colors">Persiapan</span>
+                    <span className="text-xs text-slate-500 mt-1">Persiapan Skrip UAT</span>
                 </button>
 
                 {/* Arrow */}
@@ -404,7 +404,7 @@ export const UserGuide: React.FC = () => {
                     <div className="w-16 h-16 rounded-full bg-cyan-100 flex items-center justify-center mb-3 group-hover:bg-cyan-200 transition-colors group-hover:scale-110 duration-300 shadow-sm">
                         <PlayCircle className="w-7 h-7 text-cyan-600" />
                     </div>
-                    <span className="font-bold text-slate-800 text-lg group-hover:text-cyan-700 transition-colors">Eksekusi UAT</span>
+                    <span className="font-bold text-slate-800 text-lg group-hover:text-cyan-700 transition-colors">Pelaksanaan Testing</span>
                     <span className="text-xs text-slate-500 mt-1">Lakukan Step-by-Step</span>
                 </button>
 
@@ -424,8 +424,8 @@ export const UserGuide: React.FC = () => {
                     <div className="w-16 h-16 rounded-full bg-red-100 flex items-center justify-center mb-3 group-hover:bg-red-200 transition-colors group-hover:scale-110 duration-300 shadow-sm">
                         <Bug className="w-7 h-7 text-red-600" />
                     </div>
-                    <span className="font-bold text-slate-800 text-lg group-hover:text-red-700 transition-colors">Report Bug</span>
-                    <span className="text-xs text-slate-500 mt-1">Jika Hasil != Expected</span>
+                    <span className="font-bold text-slate-800 text-lg group-hover:text-red-700 transition-colors">Pelaporan Bug</span>
+                    <span className="text-xs text-slate-500 mt-1">Jika Actual tidak sama dengan Expected</span>
                 </button>
 
             </div>
