@@ -378,7 +378,7 @@ export const UserGuide: React.FC = () => {
                 
                 {/* Step 1 - Persiapan */}
                 <button 
-                  onClick={() => scrollToSection('execution')}
+                  onClick={() => scrollToSection('Persiapan')}
                   className="flex flex-col items-center text-center group cursor-pointer w-full md:w-auto focus:outline-none"
                 >
                     <div className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center mb-3 group-hover:bg-blue-200 transition-colors group-hover:scale-110 duration-300 shadow-sm">
