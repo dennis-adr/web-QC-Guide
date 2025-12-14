@@ -407,7 +407,7 @@ export const UserGuide: React.FC = () => {
         {/* DOWNLOAD BUTTON ADDED HERE */}
         <div className="flex justify-center">
           <a 
-            href="/public/Guide_User.pdf" 
+            href="/Guide_User.pdf" 
             download 
             className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all transform hover:-translate-y-1"
           >
