@@ -19,9 +19,11 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center space-x-3">
-            <div className="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
-              <span className="font-bold text-white">TC</span>
-            </div>
+            <img 
+              src="/logo.png" 
+              alt="Technocenter Logo" 
+              className="w-10 h-10 rounded-full object-cover border-2 border-slate-700 shadow-sm"
+            />
             <div>
               <h1 className="text-lg font-bold leading-none">Technocenter</h1>
               <p className="text-xs text-slate-400 font-medium tracking-wide">QUALITY ASSURANCE HUB</p>

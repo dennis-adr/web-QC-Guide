@@ -47,8 +47,12 @@ export const PinAuth: React.FC<PinAuthProps> = ({ onAuthenticated }) => {
     <div className="min-h-screen bg-slate-900 flex items-center justify-center px-4">
       <div className="max-w-md w-full bg-white rounded-2xl shadow-2xl overflow-hidden">
         <div className="p-8 text-center">
-          <div className="mx-auto bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mb-4">
-            <Lock className="w-8 h-8 text-blue-600" />
+          <div className="flex justify-center mb-6">
+            <img 
+              src="/logo.png" 
+              alt="Technocenter Logo" 
+              className="w-24 h-24 rounded-full object-cover border-4 border-slate-100 shadow-md"
+            />
           </div>
           <h2 className="text-2xl font-bold text-slate-900 mb-2">Technocenter QC Hub</h2>
           <p className="text-slate-500 text-sm mb-8">Dokumen ini bersifat rahasia/internal. Masukkan PIN untuk melanjutkan.</p>
