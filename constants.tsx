@@ -42,38 +42,46 @@ b. Jika Actual Result TIDAK SESUAI Expected Result:
         - Di Monday: Ubah status jadi REOPEN.
         - Ulangi proses.
 
-4. PELAPORAN BUG (SIT)
+4. PELAPORAN BUG & STATUS LENGKAP
 - Di File Excel: Status = FAIL.
 - Di Monday.com (Group SIT): Buat card baru.
-  - Judul: [BUGXXX] - [Modul] - [Judul Bug]
+  - Judul: [BUGXXX]-[TCXX]-Modul-Deskripsi Bug
   - Test By: Akun QC.
   - Assign To: SA/BA/PSA terkait.
-  - Developer: KOSONGKAN (nanti diisi SA/BA).
+  - Developer: KOSONGKAN.
   - PIC: Penanggung jawab project.
-  - Status Awal: OPEN.
+
+REFERENSI STATUS MONDAY:
+A. Status Pengerjaan (Workflow Utama)
+   - OPEN: Bug baru dilaporkan.
+   - IN PROGRESS: Sedang dikerjakan developer.
+   - REOPEN: Bug muncul kembali.
+   - CLOSED: Bug sudah clear.
+
+B. Status Pengujian
+   - TESTING QC: Verifikasi oleh QC Internal.
+   - TESTING USER: Validasi oleh User (UAT).
+   - TESTING VENDOR: Pengecekan pihak ketiga.
+
+C. Status Teknis
+   - MERGE/DONE DEV: Development Server.
+   - MERGE/DONE STG: Staging Server.
+
+D. Status Penundaan & Validasi
+   - PENDING: Menunggu info tambahan.
+   - HOLD: Sengaja ditahan/pause (Low priority).
+   - REJECT: Ditolak (Bukan Bug / By Design).
+   - DUPLICATE: Sudah ada di card lain.
+   - NEED CONFIRM: Butuh konfirmasi.
+
+E. Severity (Dampak)
+   - MAJOR (Stopper), MEDIUM (Workaround), MINOR, KOSMETIK (Visual), NOT BUG, NICE TO HAVE, MUST TO HAVE.
 
 BAGIAN II: GUIDE UAT (PENDAMPINGAN QC)
-Terdapat 2 jenis UAT: Mandiri (oleh User) dan Pendampingan (QC sebagai perantara).
-Fokus Guide ini adalah PENDAMPINGAN.
-
-Role QC di UAT Pendampingan:
-- Sebagai OPERATOR dan PERANTARA Demo.
-- Media: Online Meeting (biasanya ada SA/BA juga).
-
-Proses:
-1. Persiapan:
-   - Environment Check: Pastikan stabil.
-   - Data Dummy: Siapkan akun login dan data test.
-   - Skrip: Siapkan skrip UAT internal atau dari user.
-2. Pelaksanaan:
-   - QC Share Screen.
-   - QC menjalankan aplikasi sesuai instruksi User / urutan skrip.
-   - User TIDAK akses Monday. QC yang input ke Monday (Group UAT) jika user komplain/temu bug.
-   - Catat request user, tapi JANGAN MENJANJIKAN sesuatu di luar wewenang. Lempar ke SA/BA jika butuh keputusan.
-3. Pasca Sesi:
-   - Rekap File UAT (Pass/Fail).
-   - Rapikan Monday (Lengkapi data bug yang diinput cepat saat meeting).
-   - Handover ke SA/BA.
+Role QC: OPERATOR dan PERANTARA Demo.
+- Persiapan: Environment Check, Data Dummy, Skrip.
+- Pelaksanaan: QC Share Screen, Input Bug ke Monday (Group UAT).
+- Handover: Rekap Excel, Rapikan Monday.
 `;
 
 // Raw text for the AI Context - User Guide
@@ -156,10 +164,10 @@ KONDISI 1: User bertanya PROSEDUR / CARA KERJA / DEFINISI ("Gimana cara...", "Ap
   User: "Gimana cara lapor bug?"
   Bot: "Singkatnya begini:
   1. Ubah status TC di Excel jadi FAIL.
-  2. Buat card di Monday.com dengan judul [BUGXXX] - [Modul] - [Judul].
+  2. Buat card di Monday.com dengan judul [BUGXXX]-[TCXX]-Modul-Deskripsi Bug.
   3. Isi Severity, Priority, dan Evidence.
   
-  Untuk format detail dan contoh screenshotnya, cek di **Tab QC Guide** bagian **'Pelaporan Bug'** ya!"
+  Untuk format detail dan contoh screenshotnya, cek di **Tab QC Guide** bagian **'Standar Pelaporan'** ya!"
 
 KONDISI 2: User KOMPLAIN / BINGUNG / MARAH ("Kok direject?", "Ribet banget", "Kenapa Hold?")
 - JAWABAN HARUS: EMPATI, SUPORTIF, MANUSIAWI.
